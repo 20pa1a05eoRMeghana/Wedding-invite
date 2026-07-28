@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Keerthana &amp; Abhiram | Wedding Invitation</title>
+<meta name="description" content="Join us in celebrating the wedding of Keerthana &amp; Abhiram">
+
+<!-- Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;0,800;1,500&family=Poppins:wght@300;400;500;600;700&family=Cormorant+Garamond:ital,wght@0,500;1,500&display=swap" rel="stylesheet">
+
+<!-- Icons -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- =====================================================
+     PRELOADER / WAX SEAL INVITATION OPENING (signature intro)
+====================================================== -->
+<div class="preloader" id="preloader">
+  <div class="preloader__envelope">
+    <div class="preloader__seal" id="sealBtn" role="button" tabindex="0" aria-label="Open your invitation">
+  <!-- <svg viewBox="0 0 100 100" class="preloader__seal-ring">
+    <circle cx="50" cy="50" r="46"></circle>
+  </svg> -->
+  <img
+    src="assets\images\Logo-removebg-preview.png"
+    alt="Wedding Logo"
+    class="preloader__logo"
+  >
+</div>
+    <p class="preloader__hint">Tap the seal to open invitation</p>
+    <div class="preloader__flap preloader__flap--top"></div>
+    <div class="preloader__flap preloader__flap--left"></div>
+    <div class="preloader__flap preloader__flap--right"></div>
+  </div>
+</div>
+
+<!-- Scroll progress bar -->
+<div class="progress-bar" id="progressBar"></div>
+
+<!-- Cursor glow follower (desktop only, driven by JS) -->
+<div class="cursor-glow" id="cursorGlow"></div>
+
+<!-- Falling petals + floating hearts canvas layer -->
+<canvas id="fxCanvas" class="fx-canvas" aria-hidden="true"></canvas>
+
+<!-- =====================================================
+     MUSIC PLAYER
+====================================================== -->
+<div class="music-player" id="musicPlayer">
+  <button class="music-player__toggle" id="musicToggle" aria-label="Play background music">
+    <i class="fa-solid fa-play" id="musicIcon"></i>
+  </button>
+  <div class="music-player__eq" id="musicEq" aria-hidden="true">
+    <span></span><span></span><span></span><span></span>
+  </div>
+  <audio id="bgAudio" loop preload="auto">
+    <source src="assets/music/the_mountain-wedding-522480 (1).mp3" type="audio/mpeg">
+</audio>
+</div>
+
+<!-- =====================================================
+     NAV DOTS (side scroll indicator)
+====================================================== -->
+<nav class="dot-nav" id="dotNav" aria-label="Section navigation">
+  <a href="#hero" class="dot-nav__dot active" data-label="Home"></a>
+  <a href="#countdown" class="dot-nav__dot" data-label="Countdown"></a>
+  <a href="#slideshow" class="dot-nav__dot" data-label="Us"></a>
+  <a href="#events" class="dot-nav__dot" data-label="events"></a>
+  <a href="#wedding-day" class="dot-nav__dot" data-label="wedding-day"></a>
+  <a href="#venue" class="dot-nav__dot" data-label="Venue"></a>
+</nav>
+
+<main id="mainContent" class="main-content">
+
+  <!-- =====================================================
+       HERO
+  ====================================================== -->
+  <section class="hero" id="hero">
+    <div class="hero__bg" style="background-image:url('assets/images/hero-bg.png')"></div>
+    <div class="hero__scrim"></div>
+
+    <div class="hero__content">
+      <p class="eyebrow hero__eyebrow" data-reveal>Together with families</p>
+
+      <!-- <div class="hero__portrait" data-reveal>
+        <img src="assets\images\kcouple1.png" alt="Ananya and Rohan" loading="eager">
+      </div> -->
+
+      <h1 class="hero__names" data-reveal>
+        <span class="hero__name">Keerthana</span>
+        <span class="hero__amp">&amp;</span>
+        <span class="hero__name">Abhiram</span>
+      </h1>
+
+      <p class="hero__tagline" data-reveal>are getting married</p>
+
+      <div class="divider divider--gold" data-reveal></div>
+
+      <p class="hero__date" data-reveal>
+        <span id="heroDateDay">Wednesday</span> &middot; <span id="heroDateFull">26th August 2026</span>
+      </p>
+
+      <div class="hero__actions" data-reveal>
+        <span class="pill-tag">Save the Date</span>
+        <a href="#wedding-day" class="btn btn--gold">View Invitation</a>
+      </div>
+    </div>
+
+  </section>
+
+  <!-- =====================================================
+       LIVE COUNTDOWN
+  ====================================================== -->
+  <section class="countdown-section" id="countdown">
+    <div class="section-inner">
+      <p class="eyebrow" data-reveal>The Big Day Is Near</p>
+      <h2 class="section-title" data-reveal>Our Forever Starts In</h2>
+
+      <div class="countdown" id="countdown-timer" data-reveal>
+        <div class="countdown__unit">
+          <span class="countdown__num" id="cd-days">00</span>
+          <span class="countdown__label">Days</span>
+        </div>
+        <div class="countdown__sep">:</div>
+        <div class="countdown__unit">
+          <span class="countdown__num" id="cd-hours">00</span>
+          <span class="countdown__label">Hours</span>
+        </div>
+        <div class="countdown__sep">:</div>
+        <div class="countdown__unit">
+          <span class="countdown__num" id="cd-minutes">00</span>
+          <span class="countdown__label">Minutes</span>
+        </div>
+        <div class="countdown__sep">:</div>
+        <div class="countdown__unit">
+          <span class="countdown__num" id="cd-seconds">00</span>
+          <span class="countdown__label">Seconds</span>
+        </div>
+      </div>
+
+      <p class="countdown__complete" id="countdownComplete" hidden>Our Forever Begins <span aria-hidden="true">❤</span></p>
+    </div>
+  </section>
+
+  <!-- =====================================================
+       COUPLE PHOTO SLIDESHOW
+  ====================================================== -->
+  <section class="slideshow-section" id="slideshow">
+    <div class="section-inner">
+      <p class="eyebrow" data-reveal>Moments We Cherish</p>
+      <h2 class="section-title" data-reveal>A Little Glimpse Of Us</h2>
+    </div>
+
+    <div class="slideshow" id="slideshow-carousel">
+      <div class="slideshow__track" id="slideshowTrack">
+        <div class="slideshow__slide is-active">
+          <img src="assets/images/slide-3.jpeg" alt="Keerthana and Abhiram, moment one">
+        </div>
+        <div class="slideshow__slide">
+          <img src="assets/images/slide-1.jpeg" alt="Keerthana and Abhiram, moment three">
+        </div>
+        <!-- <div class="slideshow__slide">
+          <img src="assets/images/slide-4.jpeg" alt="Keerthana and Abhiram, moment three">
+        </div>
+        <div class="slideshow__slide">
+          <img src="assets/images/slide-6.jpeg" alt="Keerthana and Abhiram, moment three">
+        </div>
+        <div class="slideshow__slide">
+          <img src="assets/images/slide-7.jpeg" alt="Keerthana and Abhiram, moment three">
+        </div> -->
+      </div>
+
+      <button class="slideshow__arrow slideshow__arrow--prev" id="slidePrev" aria-label="Previous photo">
+        <i class="fa-solid fa-chevron-left"></i>
+      </button>
+      <button class="slideshow__arrow slideshow__arrow--next" id="slideNext" aria-label="Next photo">
+        <i class="fa-solid fa-chevron-right"></i>
+      </button>
+
+      <div class="slideshow__dots" id="slideshowDots"></div>
+    </div>
+  </section>
+
+<!-- =========================================================
+     WEDDING FESTIVITIES TIMELINE
+========================================================= -->
+
+<!-- <section class="timeline-section" id="events">
+
+    <div class="section-inner">
+        <p class="eyebrow">Wedding Festivities</p>
+        <h2 class="section-title">Celebrate With Us</h2>
+    </div>
+
+    <div class="timeline">
+
+        <div class="timeline-item haldi">
+
+            <div class="timeline-dot"></div>
+
+            <div class="timeline-card">
+
+                <h3>🌼 Haldi</h3>
+
+                <p><i class="fa-regular fa-calendar"></i> Sunday, 23rd August 2026</p>
+
+                <p><i class="fa-regular fa-clock"></i> 9:00 AM</p>
+
+                <p class="timeline-location">
+                  <i class="fa-solid fa-location-dot"></i>                  
+                      AIKYAM Convention, Rajahmundry
+              </p>
+              <a class="timeline-direction"
+                href="https://maps.app.goo.gl/Ybgrg9cQ6VTYCK9i9"
+                target="_blank"
+                rel="noopener">
+                  <i class="fa-solid fa-diamond-turn-right"></i>
+                  Get Directions
+              </a>
+
+                <div class="theme-heading">
+                    Color Theme
+                </div>
+
+                <div class="theme-colors">
+                    <span style="background:#FFD400"></span>
+                    <span style="background:#FFC107"></span>
+                    
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="timeline-item mehendi">
+
+            <div class="timeline-dot"></div>
+
+            <div class="timeline-card">
+
+                <h3>🌿 Mehendi</h3>
+
+                <p><i class="fa-regular fa-calendar"></i> Sunday, 23rd August 2026</p>
+
+                <p><i class="fa-regular fa-clock"></i> 1:00 PM</p>
+
+                <p class="timeline-location">
+                  <i class="fa-solid fa-location-dot"></i>                  
+                      AIKYAM Convention, Rajahmundry
+              </p>
+              <a class="timeline-direction"
+                href="https://maps.app.goo.gl/Ybgrg9cQ6VTYCK9i9"
+                target="_blank"
+                rel="noopener">
+                  <i class="fa-solid fa-diamond-turn-right"></i>
+                  Get Directions
+              </a>
+
+                <div class="theme-heading">
+                    Color Theme
+                </div>
+
+                <div class="theme-colors">
+                    <span style="background:#2E7D32"></span>
+                    <span style="background:#4CAF50"></span>
+                
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="timeline-item sangeeth">
+
+            <div class="timeline-dot"></div>
+
+            <div class="timeline-card">
+
+                <h3>🎵 Sangeeth Night</h3>
+
+                <p><i class="fa-regular fa-calendar"></i> Sunday, 23rd August 2026</p>
+
+                <p><i class="fa-regular fa-clock"></i> 6:00 PM</p>
+
+                <p class="timeline-location">
+                  <i class="fa-solid fa-location-dot"></i>                  
+                      AIKYAM Convention, Rajahmundry
+              </p>
+              <a class="timeline-direction"
+                href="https://maps.app.goo.gl/Ybgrg9cQ6VTYCK9i9"
+                target="_blank"
+                rel="noopener">
+                  <i class="fa-solid fa-diamond-turn-right"></i>
+                  Get Directions
+              </a>
+
+                <div class="theme-heading">
+                    Color Theme
+                </div>
+
+                <div class="theme-colors">
+                    <span style="background:#000"></span>
+                    <span style="background:#200374"></span>
+                    
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section> -->
+
+<section class="wedding-day" id="wedding-day">
+
+    <div class="section-inner">
+        <p class="invitation-line">
+            You are cordially invited to celebrate our wedding and be a part of our most cherished day.
+        </p>
+
+        <p class="eyebrow">The Big Day</p>
+
+        <h2 class="section-title">
+            Wedding Day
+        </h2>
+
+    </div>
+
+    <div class="wedding-grid">
+
+        <div class="wedding-card">
+
+            <h3>🥂 Reception</h3>
+
+            <p><strong>Date:</strong> Wednesday, 26th August 2026</p>
+
+            <p><strong>Time:</strong> 6:00 PM</p>
+
+            <p><strong>Dinner:</strong> 7:00 PM Onwards</p>
+
+            <p><strong>Venue:</strong> SVPC Conventions Hall-I</p>
+
+        </div>
+
+        <div class="wedding-card">
+
+            <h3>💍 Wedding</h3>
+
+            <p><strong>Date:</strong> Wednesday, 26th August 2026</p>
+
+            <p><strong>Muhurtham:</strong> 11:44 PM</p>
+
+            <p><strong>Venue:</strong> SVPC Conventions Hall-I</p>
+
+        </div>
+
+    </div>
+
+</section>
+
+  <!-- =====================================================
+       VENUE
+  ====================================================== -->
+ <section class="venue-section" id="venue">
+
+    <div class="section-inner">
+          <h2 class="section-title" data-reveal>Wedding Venue</h2>
+    </div>
+
+    <div class="venue-card" data-reveal>
+
+        <div class="venue-card__info">
+
+            <h3>SVPC CONVENTIONS (HALL-I)</h3>
+
+            <p class="venue-card__address">
+                <i class="fa-solid fa-location-dot"></i>
+                Opp. Old Toyota Showroom, Divancheruvu,
+                Rajamahendravaram, Palacherla,
+                Andhra Pradesh - 533353
+            </p>
+
+            <div class="venue-map">
+
+                <a href="https://maps.app.goo.gl/u1C661fKbzF45iPU9"
+                   target="_blank"
+                   rel="noopener">
+
+                    <img
+                        src="assets/images/svpc convention.png"
+                        alt="SVPC Conventions">
+
+                    <div class="map-overlay">
+                        <i class="fa-solid fa-location-dot"></i>
+                        <span>View on Google Maps</span>
+                    </div>
+
+                </a>
+
+            </div>
+
+            <a class="venue-direction"
+               href="https://maps.app.goo.gl/u1C661fKbzF45iPU9"
+               target="_blank"
+               rel="noopener">
+
+                <i class="fa-solid fa-diamond-turn-right"></i>
+                Get Directions
+
+            </a>
+
+        </div>
+
+    </div>
+
+</section>
+  
+  <!-- =====================================================
+       FOOTER
+  ====================================================== -->
+  <footer class="footer">
+    <div class="footer__monogram">K<span>&amp;</span>A</div>
+    <p class="footer__thanks">With hearts full of gratitude, we thank you for being part of our story.</p>
+    <p class="footer__names">Keerthana &amp; Abhiram</p>
+    <div class="divider divider--gold divider--small"></div>
+    <p class="footer__credit">Made with <i class="fa-solid fa-heart"></i> for our wedding day</p>
+    <button class="footer__top" id="backToTop" aria-label="Back to top"><i class="fa-solid fa-arrow-up"></i></button>
+  </footer>
+
+</main>
+
+<script src="script.js"></script>
+</body>
+</html>
